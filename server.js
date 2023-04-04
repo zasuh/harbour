@@ -75,26 +75,22 @@ app.post('/completion', async (req, res, next) => {
     {
       role: 'system',
       content:
-        'I need to act as a code review/due diligence person. You will get a single file with React or Javascript code and I need you to check for react best practices, style, state management, complexity and vulnerability.',
+        'I need to act as a code review/due diligence person. I will get a single file with React or Javascript code and I need to check for react best practices, style, state management, complexity and vulnerability.',
     },
     {
       role: 'system',
       content:
-        'Check for the following: usage of hooks, is the code using class components, is it following css-in-js conventions, is it responsive',
+        'I need to check the usage of hooks, class components, responsiveness and accessibility',
     },
     {
       role: 'system',
       content:
-        'Check for input validation, error handling, are functions too large, are components maintainable',
-    },
-    {
-      role: 'system',
-      content: 'I need you to write 1 unit test for the file.',
+        'I need to check for input validation, error handling, size of functions and maintainability of components',
     },
     {
       role: 'system',
       content:
-        'I need to always find good and bad things about the code you are analyzing',
+        'I need to write 3 to 5 unit tests for the file in the Jest framework.',
     },
     {
       role: 'system',
@@ -118,7 +114,7 @@ app.post('/completion', async (req, res, next) => {
     {
       role: 'system',
       content:
-        'When I return the HTML answer the titles of sections should be bolded',
+        'When I return the HTML answer the titles of sections should be bolded or each point should have a bolded first few words, to better understand it',
     },
     { role: 'user', content: req.body.prompt },
   ];
@@ -129,8 +125,8 @@ app.post('/completion', async (req, res, next) => {
       {
         model: 'gpt-3.5-turbo',
         messages,
-        max_tokens: 500,
-        temperature: 1.0,
+        max_tokens: 750,
+        temperature: 1,
       },
       {
         headers: {

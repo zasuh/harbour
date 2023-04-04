@@ -28,8 +28,6 @@ const Main = ({ code, file }: MainProps): JSX.Element => {
     setLoading(false);
   };
 
-  console.log(code);
-
   return (
     <Wrapper>
       <OuterContainer>
