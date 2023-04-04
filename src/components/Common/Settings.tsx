@@ -27,7 +27,6 @@ const SettingsDialog = ({
     setGhRepository,
     openAiToken,
     setOpenAiToken,
-    getGHRepo,
     setSettings,
   } = useContext<EnvContextType>(EnvContext);
 
