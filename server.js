@@ -42,7 +42,7 @@ app.post('/file-contents', async (req, res, next) => {
         Authorization: `Bearer ${req.body.ghToken}`,
       },
     });
-    const data = JSON.stringify(response.data);
+    const data = response.data;
     res.status(200).json({ data });
   } catch (error) {
     res.status(400);
