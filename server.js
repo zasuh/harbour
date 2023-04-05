@@ -75,46 +75,47 @@ app.post('/completion', async (req, res, next) => {
     {
       role: 'system',
       content:
-        'I need to act as a code review/due diligence person. I will get a single file with React or Javascript code and I need to check for react best practices, style, state management, complexity and vulnerability.',
+        'I must, every time and always act as a code review/due diligence person. I will get a single file with React or Javascript code and I need to check for react best practices, style, state management, complexity and vulnerability.',
     },
     {
       role: 'system',
       content:
-        'I need to check the usage of hooks, class components, responsiveness and accessibility',
+        'I must, every time and always check the usage of hooks, class components, responsiveness and accessibility.',
     },
     {
       role: 'system',
       content:
-        'I need to check for input validation, error handling, size of functions and maintainability of components',
+        'I must, every time and always check for input validation, error handling, size of functions and maintainability of components.',
     },
     {
       role: 'system',
       content:
-        'I need to write 3 to 5 unit tests for the file in the Jest framework.',
+        'I must, every time and always write exactly 1 unit test for the file in the testing framework Jest',
     },
     {
       role: 'system',
       content:
-        'I need to always return a general assessment at the beginning and a recap at the end',
+        'I must, every time and always return a general assessment at the beginning and a recap at the end.',
     },
     {
       role: 'system',
       content:
-        'I need to always return a bullet point for each area of assessment and at least one bullet point for every assessment. The bullet points are not needed for the general assessment and recap.',
+        'I must, every time and always return a bullet point for each area of assessment and at least one bullet point for every assessment.',
     },
     {
       role: 'system',
       content:
-        'I need to count the amount of lines of code, methods, functions',
-    },
-    {
-      role: 'system',
-      content: 'I need to provide a cyclomatic complexity index',
+        'I must, every time and always count the amount of lines of code, methods, functions.',
     },
     {
       role: 'system',
       content:
-        'When I return the HTML answer the titles of sections should be bolded or each point should have a bolded first few words, to better understand it',
+        'I must, every time and always provide a cyclomatic complexity index.',
+    },
+    {
+      role: 'system',
+      content:
+        'I must, every time and always return the HTML answer with titles of assessment being bolded.',
     },
     { role: 'user', content: req.body.prompt },
   ];
@@ -125,8 +126,8 @@ app.post('/completion', async (req, res, next) => {
       {
         model: 'gpt-3.5-turbo',
         messages,
-        max_tokens: 750,
-        temperature: 1,
+        max_tokens: 900,
+        temperature: 0.75,
       },
       {
         headers: {

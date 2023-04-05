@@ -54,22 +54,24 @@ const Main = ({ code, file }: MainProps): JSX.Element => {
                     {code}
                   </StyledSyntaxHighlighter>
                 </Grid>
-                <Grid item xs={12} sm={6} style={{ height: '50vh' }}>
+                <Grid item xs={12} sm={6} style={{ height: '60vh' }}>
                   <div>
                     <StyledTypography variant="body2">
                       Select a repository in the sidebar. Then select a file and
                       click the button to get an analysis.
                     </StyledTypography>
-                    <StyledTypography variant="body2">
-                      Selected file: <strong>{file}</strong>
-                    </StyledTypography>
-                    <StyledButton
-                      variant="contained"
-                      color="primary"
-                      onClick={onPrompt}
-                    >
-                      Advice pls
-                    </StyledButton>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <StyledButton
+                        variant="contained"
+                        color="primary"
+                        onClick={onPrompt}
+                      >
+                        Advice pls
+                      </StyledButton>
+                      <StyledTypography variant="body2">
+                        Selected file: <strong>{file}</strong>
+                      </StyledTypography>
+                    </div>
                   </div>
                   {loading && (
                     <LoaderWrapper>
@@ -100,10 +102,10 @@ const Wrapper = styled('main')(() => ({
   justifyContent: 'center',
   marginLeft: 240,
   marginTop: 48,
+  height: '100vh',
 }));
 
 const OuterContainer = styled('div')(() => ({
-  width: '100%',
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
@@ -112,7 +114,7 @@ const OuterContainer = styled('div')(() => ({
   margin: 30,
 }));
 
-const InnerContainer = styled(Container)(() => ({
+const InnerContainer = styled('div')(() => ({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
@@ -130,7 +132,6 @@ const StyledBox = styled(Box)(() => ({
   padding: '16px',
   backgroundColor: '#f5f5f5',
   borderRadius: '8px',
-  boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.3)',
 }));
 
 const StyledTypography = styled(Typography)(() => ({
@@ -144,7 +145,8 @@ const StyledTypography = styled(Typography)(() => ({
 }));
 
 const StyledButton = styled(Button)(() => ({
-  marginRight: '16px',
+  marginRight: 16,
+  marginBottom: 16,
 }));
 
 const AnswerWrapper = styled('div')(() => ({
@@ -162,7 +164,7 @@ const LoaderWrapper = styled('div')(() => ({
 const StyledSyntaxHighlighter = styled(SyntaxHighlighter)(() => ({
   flexBasis: '100%',
   borderRadius: '8px',
-  maxHeight: '70vh',
+  height: '70vh',
   overflowY: 'auto',
 }));
 
