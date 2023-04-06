@@ -22,11 +22,14 @@ app.get('/', (req, res) => {
 app.post('/repository', async (req, res, next) => {
   try {
     const GH_URL = `https://api.github.com/repos/${req.body.ghUsername}/${req.body.ghRepository}/contents`;
-    const response = await axios.get(GH_URL, {
-      headers: {
-        Authorization: `Bearer ${req.body.ghToken}`,
-      },
-    });
+    console.log(GH_URL);
+    const response = await axios
+      .get(GH_URL, {
+        headers: {
+          Authorization: `Bearer ${req.body.ghToken}`,
+        },
+      })
+      .catch((error) => console.log('Repository error:', error));
     const data = response.data;
     res.status(200).json({ data });
   } catch (error) {
