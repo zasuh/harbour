@@ -11,7 +11,7 @@ const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
 const app = express();
 app.use(
   cors({
-    origin: 'https://harbour-backend.onrender.com',
+    origin: 'https://harbour-frontend.onrender.com',
   })
 );
 app.use(morgan('dev'));
