@@ -12,6 +12,7 @@ import { ExpandLess, FileCopy, Folder, ArrowBack } from '@mui/icons-material';
 import Empty from './Empty';
 import { EnvContext, EnvContextType } from '@/pages/_app';
 import { useGithub } from '@/hooks/use-github';
+import { styled } from '@mui/system';
 
 interface RepoDrawerProps {
   onSetCode: (code: string) => void;
@@ -87,30 +88,27 @@ const RepoDrawer = ({ onSetCode, onSetFile }: RepoDrawerProps): JSX.Element => {
     >
       {files && files.length === 0 ? (
         <Empty />
+      ) : loading ? (
+        <LoaderWrapper>
+          <CircularProgress />
+        </LoaderWrapper>
       ) : (
         <List component="nav">
-          {(() => {
-            if (loading) return <CircularProgress />;
-            if (history[history.length - 1] !== 'root') {
-              return (
-                <ListItem button onClick={() => onBack()}>
-                  <ListItemIcon>
-                    <ArrowBack />
-                  </ListItemIcon>
-                  <ListItemText primary={history[history.length - 1]} />
-                </ListItem>
-              );
-            } else {
-              return (
-                <ListItem button onClick={() => setIsOpen(!isOpen)}>
-                  <ListItemIcon>
-                    {isOpen ? <ExpandLess /> : <Folder />}
-                  </ListItemIcon>
-                  <ListItemText primary="Repository" />
-                </ListItem>
-              );
-            }
-          })()}
+          {history[history.length - 1] !== 'root' ? (
+            <ListItem button onClick={() => onBack()}>
+              <ListItemIcon>
+                <ArrowBack />
+              </ListItemIcon>
+              <ListItemText primary={history[history.length - 1]} />
+            </ListItem>
+          ) : (
+            <ListItem button onClick={() => setIsOpen(!isOpen)}>
+              <ListItemIcon>
+                {isOpen ? <ExpandLess /> : <Folder />}
+              </ListItemIcon>
+              <ListItemText primary="Repository" />
+            </ListItem>
+          )}
           <Collapse in={isOpen} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
               {files.map((file) => (
@@ -128,5 +126,11 @@ const RepoDrawer = ({ onSetCode, onSetFile }: RepoDrawerProps): JSX.Element => {
     </Drawer>
   );
 };
+
+const LoaderWrapper = styled('div')(() => ({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+}));
 
 export default RepoDrawer;

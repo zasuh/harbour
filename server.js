@@ -9,7 +9,11 @@ const axios = require('axios');
 const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: 'https://harbour-backend.onrender.com',
+  })
+);
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -66,58 +70,88 @@ app.post('/directory-contents', async (req, res, next) => {
 });
 
 app.post('/completion', async (req, res, next) => {
-  const messages = [
+  const initialMessage = [
     {
       role: 'system',
       content:
         'Act as a senior frontend software engineer with experience building scalable and maintainable react.js applications serving millions of users.',
     },
     {
-      role: 'system',
+      role: 'user',
       content:
-        'I must, every time and always act as a code review/due diligence person. I will get a single file with React or Javascript code and I need to check for react best practices, style, state management, complexity and vulnerability.',
+        'You must, every time and always return a general assessment at the beginning and a recap at the end.',
     },
     {
-      role: 'system',
+      role: 'user',
       content:
-        'I must, every time and always check the usage of hooks, class components, responsiveness and accessibility.',
+        'You must, every time and always return a bullet point for each area of assessment and at least one bullet point for every assessment.',
     },
     {
-      role: 'system',
+      role: 'user',
       content:
-        'I must, every time and always check for input validation, error handling, size of functions and maintainability of components.',
+        'You must, every time and always return the HTML answer with titles of assessment being bolded.',
+    },
+  ];
+
+  const bestPractices = [
+    {
+      role: 'user',
+      content:
+        'You must, every time and always act as a code review/due diligence person. I will get a single file with React or Javascript code and I need to check for react best practices.',
+    },
+  ];
+
+  const codeStyleMessages = [
+    {
+      role: 'user',
+      content:
+        'You must, every time and always check for code style and linting',
+    },
+  ];
+
+  const functionsMessages = [
+    {
+      role: 'user',
+      content:
+        'You must, every time and always check for input validation, error handling and correct types for inputs.',
     },
     {
-      role: 'system',
+      role: 'user',
       content:
-        'I must, every time and always write exactly 1 unit test for the file in the testing framework Jest',
+        'You must, every time and always check for function naming and the consistency for that naming.',
     },
     {
-      role: 'system',
+      role: 'user',
       content:
-        'I must, every time and always return a general assessment at the beginning and a recap at the end.',
+        'You must, every time and always check for the amount of nesting in functions and their complexity.',
+    },
+  ];
+
+  const complexityMessages = [
+    {
+      role: 'user',
+      content:
+        'You must, every time and always count the amount of lines of code, methods, functions.',
     },
     {
-      role: 'system',
+      role: 'user',
       content:
-        'I must, every time and always return a bullet point for each area of assessment and at least one bullet point for every assessment.',
+        'You must, every time and always provide a cyclomatic complexity index.',
     },
+  ];
+
+  const unitTestMessages = [
     {
-      role: 'system',
-      content:
-        'I must, every time and always count the amount of lines of code, methods, functions.',
+      role: 'user',
+      content: 'You must, every time and always write exactly 1 unit test.',
     },
+  ];
+
+  const code = [
     {
-      role: 'system',
-      content:
-        'I must, every time and always provide a cyclomatic complexity index.',
+      role: 'user',
+      content: `This is the code you are working with: ${req.body.prompt}}`,
     },
-    {
-      role: 'system',
-      content:
-        'I must, every time and always return the HTML answer with titles of assessment being bolded.',
-    },
-    { role: 'user', content: req.body.prompt },
   ];
 
   try {
@@ -125,8 +159,14 @@ app.post('/completion', async (req, res, next) => {
       OPENAI_API_URL,
       {
         model: 'gpt-3.5-turbo',
-        messages,
-        max_tokens: 900,
+        messages: [
+          ...initialMessage,
+          ...bestPractices,
+          ...functionsMessages,
+          ...unitTestMessages,
+          ...code,
+        ],
+        max_tokens: 500,
         temperature: 0.75,
       },
       {
@@ -136,6 +176,7 @@ app.post('/completion', async (req, res, next) => {
         },
       }
     );
+
     const data = response.data;
     res.status(200).json({ data: data.choices[0].message.content.trim() });
   } catch (error) {

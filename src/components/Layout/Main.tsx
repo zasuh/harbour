@@ -39,7 +39,7 @@ const Main = ({ code, file }: MainProps): JSX.Element => {
 
   return (
     <Wrapper>
-      <OuterContainer>
+      <OuterContainer maxWidth="lg">
         <InnerContainer>
           {files.length === 0 ? (
             <Typography variant="body2">
@@ -105,13 +105,14 @@ const Wrapper = styled('main')(() => ({
   height: '100vh',
 }));
 
-const OuterContainer = styled('div')(() => ({
+const OuterContainer = styled(Container)(() => ({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
   gap: 10,
   margin: 30,
+  width: '100%',
 }));
 
 const InnerContainer = styled('div')(() => ({

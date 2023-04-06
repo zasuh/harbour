@@ -38,7 +38,7 @@ const SettingsDialog = ({
           autoFocus
           margin="dense"
           label="OpenAI Key"
-          type="text"
+          type="password"
           value={openAiToken}
           onChange={(e) => setOpenAiToken(e.target.value)}
           fullWidth
@@ -46,7 +46,7 @@ const SettingsDialog = ({
         <TextField
           margin="dense"
           label="GitHub Token"
-          type="text"
+          type="password"
           value={ghToken}
           onChange={(e) => setGhToken(e.target.value)}
           fullWidth
