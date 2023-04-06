@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "server": "nodemon server.js"
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
@@ -25,6 +26,7 @@
     "marked": "^4.3.0",
     "morgan": "^1.10.0",
     "next": "13.2.4",
+    "nodemon": "^2.0.22",
     "prettier": "^2.8.7",
     "react": "18.2.0",
     "react-dom": "18.2.0",

@@ -9,11 +9,7 @@ const axios = require('axios');
 const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
 
 const app = express();
-app.use(
-  cors({
-    origin: 'https://harbour-frontend.onrender.com',
-  })
-);
+app.use(cors({ origin: '*' }));
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
