@@ -2,6 +2,8 @@ import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
 import { createContext, Dispatch, SetStateAction, useState } from 'react';
 import { useGithub } from '@/hooks/use-github';
+import { ThemeProvider } from '@mui/system';
+import theme from '@/theme';
 
 export interface EnvContextType {
   ghToken: string;
@@ -47,23 +49,25 @@ export default function App({ Component, pageProps }: AppProps) {
   const [settings, setSettings] = useState<boolean>(false);
 
   return (
-    <EnvContext.Provider
-      value={{
-        ghToken,
-        setGhToken,
-        ghUsername,
-        setGhUsername,
-        ghRepository,
-        setGhRepository,
-        openAiToken,
-        setOpenAiToken,
-        files,
-        setFiles,
-        settings,
-        setSettings,
-      }}
-    >
-      <Component {...pageProps} />
-    </EnvContext.Provider>
+    <ThemeProvider theme={theme}>
+      <EnvContext.Provider
+        value={{
+          ghToken,
+          setGhToken,
+          ghUsername,
+          setGhUsername,
+          ghRepository,
+          setGhRepository,
+          openAiToken,
+          setOpenAiToken,
+          files,
+          setFiles,
+          settings,
+          setSettings,
+        }}
+      >
+        <Component {...pageProps} />
+      </EnvContext.Provider>
+    </ThemeProvider>
   );
 }

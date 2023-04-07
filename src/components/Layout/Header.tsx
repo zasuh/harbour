@@ -10,10 +10,10 @@ const Header = (): JSX.Element => {
   return (
     <StyledAppBar position="fixed">
       <Toolbar>
-        <Typography variant="h6" noWrap>
-          Harbour - Code Analysis
-        </Typography>
-        <ToolbarButtons>
+        <InnerToolbarWrapper>
+          <Typography variant="h4" noWrap>
+            Harbour - Code Analysis
+          </Typography>
           <IconButton
             color="inherit"
             aria-label="settings"
@@ -21,7 +21,7 @@ const Header = (): JSX.Element => {
           >
             <Settings />
           </IconButton>
-        </ToolbarButtons>
+        </InnerToolbarWrapper>
       </Toolbar>
       <SettingsDialog open={open} onClose={() => setOpen(false)} />
     </StyledAppBar>
@@ -30,11 +30,14 @@ const Header = (): JSX.Element => {
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
   marginLeft: 240,
-  width: `calc(100% - ${240}px)`,
+  width: `calc(100% - 240px)`,
 }));
 
-const ToolbarButtons = styled('div')(({ theme }) => ({
-  marginLeft: 'auto',
+const InnerToolbarWrapper = styled('div')(() => ({
+  width: '100%',
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
 }));
 
 export default Header;
