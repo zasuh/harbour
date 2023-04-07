@@ -109,6 +109,21 @@ app.post('/completion', async (req, res, next) => {
       content:
         'You must, every time and always act as a code review/due diligence person. I will get a single file with React or Javascript code and I need to check for react best practices.',
     },
+    {
+      role: 'user',
+      content:
+        'You must, every time and always check for security vulnerabilities',
+    },
+    {
+      role: 'user',
+      content:
+        'You must, every time and always check for outdated npm packages',
+    },
+    {
+      role: 'user',
+      content:
+        'You must, every time and always give accessibility advice for the code',
+    },
   ];
 
   const codeStyleMessages = [
