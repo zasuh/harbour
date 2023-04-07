@@ -133,6 +133,7 @@ const StyledBox = styled(Box)(() => ({
   padding: '16px',
   backgroundColor: '#f5f5f5',
   borderRadius: '8px',
+  width: 1200,
 }));
 
 const StyledTypography = styled(Typography)(() => ({

@@ -23,16 +23,15 @@ app.post('/repository', async (req, res, next) => {
   try {
     const GH_URL = `https://api.github.com/repos/${req.body.ghUsername}/${req.body.ghRepository}/contents`;
     console.log(GH_URL);
-    const response = await axios
-      .get(GH_URL, {
-        headers: {
-          Authorization: `Bearer ${req.body.ghToken}`,
-        },
-      })
-      .catch((error) => console.log('Repository error:', error));
+    const response = await axios.get(GH_URL, {
+      headers: {
+        Authorization: `Bearer ${req.body.ghToken}`,
+      },
+    });
     const data = response.data;
     res.status(200).json({ data });
   } catch (error) {
+    console.log('Repository error:', error.message);
     res.status(400);
   }
 });
@@ -48,6 +47,7 @@ app.post('/file-contents', async (req, res, next) => {
     const data = response.data;
     res.status(200).json({ data });
   } catch (error) {
+    console.log('File contents error:', error.message);
     res.status(400);
   }
 });
@@ -64,6 +64,7 @@ app.post('/directory-contents', async (req, res, next) => {
     const data = response.data;
     res.status(200).json({ data });
   } catch (error) {
+    console.log('Directory contents error:', error.message);
     res.status(400);
   }
 });
@@ -179,6 +180,7 @@ app.post('/completion', async (req, res, next) => {
     const data = response.data;
     res.status(200).json({ data: data.choices[0].message.content.trim() });
   } catch (error) {
+    console.log('Completion error:', error.message);
     res.status(400);
   }
 });
