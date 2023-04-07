@@ -84,12 +84,22 @@ app.post('/completion', async (req, res, next) => {
     {
       role: 'user',
       content:
+        'You will get a React component file and must provide the following assessments while also giving advice on how to make the code better.',
+    },
+    {
+      role: 'user',
+      content:
         'You must, every time and always return a bullet point for each area of assessment and at least one bullet point for every assessment.',
     },
     {
       role: 'user',
       content:
         'You must, every time and always return the HTML answer with titles of assessment being bolded.',
+    },
+    {
+      role: 'user',
+      content:
+        'Here is an example of how you should write an assessment: The code needs to be broken down into smaller components',
     },
   ];
 
@@ -124,6 +134,11 @@ app.post('/completion', async (req, res, next) => {
       role: 'user',
       content:
         'You must, every time and always check for the amount of nesting in functions and their complexity.',
+    },
+    {
+      role: 'user',
+      content:
+        'You must, every time and always check if there are potential improvements to be made.',
     },
   ];
 
@@ -163,11 +178,13 @@ app.post('/completion', async (req, res, next) => {
           ...initialMessage,
           ...bestPractices,
           ...functionsMessages,
+          ...codeStyleMessages,
+          ...complexityMessages,
           ...unitTestMessages,
           ...code,
         ],
-        max_tokens: 500,
-        temperature: 0.75,
+        max_tokens: 750,
+        temperature: 0.1,
       },
       {
         headers: {

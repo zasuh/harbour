@@ -5,7 +5,7 @@ import { EnvContext, EnvContextType } from '@/pages/_app';
 const url = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 const useGithub = () => {
-  const { ghToken, ghRepository, ghUsername, settings, setFiles } =
+  const { setSettings, ghToken, ghRepository, ghUsername, settings, setFiles } =
     useContext<EnvContextType>(EnvContext);
 
   const getRepo = async () => {
@@ -16,6 +16,7 @@ const useGithub = () => {
         ghUsername: ghUsername || process.env.GITHUB_USERNAME,
       });
       setFiles(data.data);
+      setSettings(false);
     } catch (error) {
       console.log(`Error when getting repository: ${error}`);
     }

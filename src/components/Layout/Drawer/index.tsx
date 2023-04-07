@@ -131,6 +131,7 @@ const LoaderWrapper = styled('div')(() => ({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
+  marginTop: 16,
 }));
 
 export default RepoDrawer;
