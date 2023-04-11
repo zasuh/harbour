@@ -65,6 +65,7 @@ const Main = ({ code, file }: MainProps): JSX.Element => {
                         variant="contained"
                         color="primary"
                         onClick={onPrompt}
+                        disabled={loading}
                       >
                         Advice pls
                       </StyledButton>

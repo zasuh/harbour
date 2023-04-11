@@ -74,13 +74,13 @@ const getCompletion = async (req, res, next) => {
       {
         model: 'gpt-3.5-turbo',
         messages: [
+          ...code,
           ...initialMessage,
           ...bestPractices,
           ...functionsMessages,
           ...codeStyleMessages,
           ...complexityMessages,
           ...unitTestMessages,
-          ...code,
         ],
         max_tokens: 1000,
         temperature: 0.1,
