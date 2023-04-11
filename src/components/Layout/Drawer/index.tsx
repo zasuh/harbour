@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import Image from 'next/image';
 import {
   CircularProgress,
   Collapse,
@@ -8,11 +9,14 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material';
-import { ExpandLess, FileCopy, Folder, ArrowBack } from '@mui/icons-material';
-import Empty from './Empty';
+import { ExpandLess, ArrowBack } from '@mui/icons-material';
 import { EnvContext, EnvContextType } from '@/pages/_app';
 import { useGithub } from '@/hooks/use-github';
 import { styled } from '@mui/system';
+import fileIcon from '@/assets/file.svg';
+import folderIcon from '@/assets/folder.svg';
+import logo from '@/assets/logo_white.svg';
+import Empty from './Empty';
 
 interface RepoDrawerProps {
   onSetCode: (code: string) => void;
@@ -80,12 +84,23 @@ const RepoDrawer = ({ onSetCode, onSetFile }: RepoDrawerProps): JSX.Element => {
       PaperProps={{
         sx: {
           width: 240,
+          borderRight: '2px solid #133651',
         },
       }}
       variant="persistent"
       anchor="left"
       open={true}
     >
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginTop: 7,
+        }}
+      >
+        <Image src={logo} alt="logo" height={50} width={150} />
+      </div>
       {files && files.length === 0 ? (
         <Empty />
       ) : loading ? (
@@ -97,14 +112,23 @@ const RepoDrawer = ({ onSetCode, onSetFile }: RepoDrawerProps): JSX.Element => {
           {history[history.length - 1] !== 'root' ? (
             <ListItem button onClick={() => onBack()}>
               <ListItemIcon>
-                <ArrowBack />
+                <ArrowBack style={{ color: 'white' }} />
               </ListItemIcon>
               <ListItemText primary={history[history.length - 1]} />
             </ListItem>
           ) : (
             <ListItem button onClick={() => setIsOpen(!isOpen)}>
               <ListItemIcon>
-                {isOpen ? <ExpandLess /> : <Folder />}
+                {isOpen ? (
+                  <ExpandLess style={{ color: 'white' }} />
+                ) : (
+                  <Image
+                    alt="Folder logo"
+                    src={fileIcon}
+                    width={20}
+                    height={20}
+                  />
+                )}
               </ListItemIcon>
               <ListItemText primary="Repository" />
             </ListItem>
@@ -114,7 +138,21 @@ const RepoDrawer = ({ onSetCode, onSetFile }: RepoDrawerProps): JSX.Element => {
               {files.map((file) => (
                 <ListItem button key={file.name} onClick={() => onItem(file)}>
                   <ListItemIcon>
-                    {file.download_url ? <FileCopy /> : <Folder />}
+                    {file.download_url ? (
+                      <Image
+                        alt="Folder logo"
+                        src={fileIcon}
+                        width={20}
+                        height={20}
+                      />
+                    ) : (
+                      <Image
+                        alt="Folder logo"
+                        src={folderIcon}
+                        width={20}
+                        height={20}
+                      />
+                    )}
                   </ListItemIcon>
                   <ListItemText primary={file.name} />
                 </ListItem>

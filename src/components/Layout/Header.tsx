@@ -1,19 +1,23 @@
 import React, { useState } from 'react';
-import Image from 'next/image';
 import { AppBar, IconButton, Toolbar, Typography } from '@mui/material';
 import { Settings } from '@mui/icons-material';
 import { styled } from '@mui/system';
 import SettingsDialog from '@/components/Common/Settings';
-import logo from '@/assets/logo_white.svg';
 
-const Header = (): JSX.Element => {
+interface HeaderProps {
+  file: string;
+}
+
+const Header = ({ file }: HeaderProps): JSX.Element => {
   const [open, setOpen] = useState(false);
 
   return (
     <StyledAppBar position="fixed">
       <Toolbar>
         <InnerToolbarWrapper>
-          <Image src={logo} alt="logo" height={50} width={150} />
+          <Typography variant="h4" style={{ color: 'white' }}>
+            {file || ''}
+          </Typography>
           <IconButton
             color="inherit"
             aria-label="settings"

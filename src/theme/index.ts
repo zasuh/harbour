@@ -1,22 +1,13 @@
 import { createTheme } from '@mui/material/styles';
 import { Theme } from '@mui/system';
 
-// Define custom color palette
-const harborColors = {
-  primary: '#006699',
-  secondary: '#F5A623',
-  error: '#D32F2F',
-  success: '#4CAF50',
-  warning: '#FFC107',
-  info: '#2196F3',
-};
-
 // Create custom theme object
 const theme: Theme = createTheme({
-  typography: {
-    fontFamily: ['Poppins', 'Roboto', 'sans-serif'].join(','),
-  },
   palette: {
+    text: {
+      primary: '#FFFFFF',
+      secondary: '#FFFFFF',
+    },
     mode: 'light',
     primary: {
       main: '#9479CE', // A custom primary color
@@ -35,9 +26,6 @@ const theme: Theme = createTheme({
     },
     success: {
       main: '#27AE60', // A custom success color
-    },
-    background: {
-      default: '#F7DCDC', // A custom background color
     },
   },
   components: {
@@ -124,7 +112,7 @@ const theme: Theme = createTheme({
           boxShadow: 'none',
         },
         colorPrimary: {
-          backgroundColor: '#133651',
+          backgroundColor: '#092D48',
         },
       },
     },
@@ -133,6 +121,28 @@ const theme: Theme = createTheme({
         paper: {
           width: 240,
           flexShrink: 0,
+          backgroundColor: '#092D48',
+        },
+      },
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          '.MuiOutlinedInput-root': {
+            color: '#9479CE',
+            '.MuiInputLabel-root': {
+              color: '#9479CE', // set label color
+            },
+            '.MuiOutlinedInput-notchedOutline': {
+              borderColor: '#9479CE',
+            },
+            '&:hover .MuiOutlinedInput-notchedOutline': {
+              borderColor: '#9479CE',
+            },
+            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+              borderColor: '#9479CE',
+            },
+          },
         },
       },
     },

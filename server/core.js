@@ -6,7 +6,6 @@ const {
   codeStyleMessages,
   complexityMessages,
   unitTestMessages,
-  code,
 } = require('./prompts');
 
 const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
@@ -68,22 +67,24 @@ const getCompletion = async (req, res, next) => {
     },
   ];
 
+  const messages = [
+    ...code,
+    ...initialMessage,
+    ...bestPractices,
+    ...functionsMessages,
+    /*...codeStyleMessages,
+    ...complexityMessages,*/
+    ...unitTestMessages,
+  ];
+
   try {
     const response = await axios.post(
       OPENAI_API_URL,
       {
         model: 'gpt-3.5-turbo',
-        messages: [
-          ...code,
-          ...initialMessage,
-          ...bestPractices,
-          ...functionsMessages,
-          ...codeStyleMessages,
-          ...complexityMessages,
-          ...unitTestMessages,
-        ],
+        messages,
         max_tokens: 1000,
-        temperature: 0.1,
+        temperature: 0.2,
       },
       {
         headers: {

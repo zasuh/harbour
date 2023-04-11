@@ -32,8 +32,8 @@ const SettingsDialog = ({
 
   return (
     <Dialog open={open} onClose={() => onClose()}>
-      <DialogTitle>Settings</DialogTitle>
-      <DialogContent>
+      <DialogTitle style={{ backgroundColor: '#133651' }}>Settings</DialogTitle>
+      <DialogContent style={{ backgroundColor: '#133651' }}>
         <TextField
           autoFocus
           margin="dense"
@@ -68,7 +68,7 @@ const SettingsDialog = ({
           fullWidth
         />
       </DialogContent>
-      <DialogActions>
+      <DialogActions style={{ backgroundColor: '#133651' }}>
         <Button onClick={() => onClose()} color="secondary">
           Cancel
         </Button>

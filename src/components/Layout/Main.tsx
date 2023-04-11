@@ -16,10 +16,9 @@ import { useSubmitPrompt } from '@/hooks/use-submit-prompt';
 
 interface MainProps {
   code: string;
-  file: string;
 }
 
-const Main = ({ code, file }: MainProps): JSX.Element => {
+const Main = ({ code }: MainProps): JSX.Element => {
   const { files } = useContext(EnvContext);
   const { getChatCompletionWithPrompt } = useSubmitPrompt();
   const [loading, setLoading] = useState(false);
@@ -42,10 +41,10 @@ const Main = ({ code, file }: MainProps): JSX.Element => {
       <OuterContainer maxWidth="lg">
         <InnerContainer>
           {files.length === 0 ? (
-            <Typography variant="body2">
+            <StyledTypography>
               Follow the instructions in the sidebar to add your Github repo and
               tokens.
-            </Typography>
+            </StyledTypography>
           ) : (
             <StyledBox>
               <Grid container spacing={2}>
@@ -69,9 +68,6 @@ const Main = ({ code, file }: MainProps): JSX.Element => {
                       >
                         Advice pls
                       </StyledButton>
-                      <StyledTypography variant="body2">
-                        Selected file: <strong>{file}</strong>
-                      </StyledTypography>
                     </div>
                   </div>
                   {loading && (
@@ -81,9 +77,7 @@ const Main = ({ code, file }: MainProps): JSX.Element => {
                   )}
                   {answer !== '' && (
                     <AnswerWrapper>
-                      <StyledTypography variant="body1">
-                        <div dangerouslySetInnerHTML={{ __html: answer }} />
-                      </StyledTypography>
+                      <div dangerouslySetInnerHTML={{ __html: answer }} />
                     </AnswerWrapper>
                   )}
                 </Grid>
@@ -104,6 +98,7 @@ const Wrapper = styled('main')(() => ({
   marginLeft: 240,
   marginTop: 48,
   height: '100vh',
+  backgroundColor: '#092D48',
 }));
 
 const OuterContainer = styled(Container)(() => ({
@@ -140,10 +135,10 @@ const StyledBox = styled(Box)(() => ({
 const StyledTypography = styled(Typography)(() => ({
   marginBottom: '16px',
   fontFamily: 'Roboto, sans-serif',
-  color: '#666',
+  color: '#FFFFFF',
   '& strong': {
     fontWeight: 900,
-    color: '#333',
+    color: '#FFFFFF',
   },
 }));
 
