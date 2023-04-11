@@ -5,7 +5,6 @@ import RepoDrawer from '@/components/Layout/Drawer';
 import Main from '@/components/Layout/Main';
 
 const Home = () => {
-  /*const { getRepo } = useGithub();*/
   const [code, setCode] = useState<string>('');
   const [file, setFile] = useState<string>('');
 

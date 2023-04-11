@@ -6,6 +6,8 @@ const morgan = require('morgan');
 const cors = require('cors');
 const axios = require('axios');
 
+const { getDirectoryContents } = require('./core');
+
 const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
 
 const app = express();
@@ -52,22 +54,7 @@ app.post('/file-contents', async (req, res, next) => {
   }
 });
 
-app.post('/directory-contents', async (req, res, next) => {
-  try {
-    const GH_URL = `https://api.github.com/repos/${req.body.ghUsername}/${req.body.ghRepository}/contents`;
-    const name = req.body.name;
-    const response = await axios.get(`${GH_URL}${name}`, {
-      headers: {
-        Authorization: `Bearer ${req.body.ghToken}`,
-      },
-    });
-    const data = response.data;
-    res.status(200).json({ data });
-  } catch (error) {
-    console.log('Directory contents error:', error.message);
-    res.status(400);
-  }
-});
+app.post('/directory-contents', getDirectoryContents);
 
 app.post('/completion', async (req, res, next) => {
   const initialMessage = [

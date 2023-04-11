@@ -13,13 +13,16 @@ const harborColors = {
 
 // Create custom theme object
 const theme: Theme = createTheme({
+  typography: {
+    fontFamily: ['Poppins', 'Roboto', 'sans-serif'].join(','),
+  },
   palette: {
     mode: 'light',
     primary: {
-      main: '#FF5733', // A custom primary color
+      main: '#9479CE', // A custom primary color
     },
     secondary: {
-      main: '#E67E22', // A custom secondary color
+      main: '#83E4C7', // A custom secondary color
     },
     error: {
       main: '#C0392B', // A custom error color
@@ -121,7 +124,7 @@ const theme: Theme = createTheme({
           boxShadow: 'none',
         },
         colorPrimary: {
-          backgroundColor: '#FF5733',
+          backgroundColor: '#133651',
         },
       },
     },

@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { AppBar, IconButton, Toolbar, Typography } from '@mui/material';
 import { Settings } from '@mui/icons-material';
 import { styled } from '@mui/system';
 import SettingsDialog from '@/components/Common/Settings';
+import logo from '@/assets/logo_white.svg';
 
 const Header = (): JSX.Element => {
   const [open, setOpen] = useState(false);
@@ -11,9 +13,7 @@ const Header = (): JSX.Element => {
     <StyledAppBar position="fixed">
       <Toolbar>
         <InnerToolbarWrapper>
-          <Typography variant="h4" noWrap>
-            Harbour - Code Analysis
-          </Typography>
+          <Image src={logo} alt="logo" height={50} width={150} />
           <IconButton
             color="inherit"
             aria-label="settings"
