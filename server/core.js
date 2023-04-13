@@ -1,14 +1,15 @@
 const axios = require('axios');
 const {
-  initialMessage,
-  bestPractices,
-  functionsMessages,
-  codeStyleMessages,
-  complexityMessages,
-  unitTestMessages,
-} = require('./prompts');
+  getFunctionsAssessment,
+  getBestPracticesAssessment,
+  getUnitTestAssessment,
+} = require('./services');
 
-const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
+const ASSESSMENT_MAPPING = {
+  best_practices: getBestPracticesAssessment,
+  functions: getFunctionsAssessment,
+  unit_tests: getUnitTestAssessment,
+};
 
 const getDirectoryContents = async (req, res, next) => {
   try {
@@ -59,43 +60,24 @@ const getRepository = async (req, res, next) => {
   }
 };
 
-const getCompletion = async (req, res, next) => {
+const getCompletion = async (req, res) => {
   const code = [
     {
       role: 'user',
       content: `This is the code you are working with: ${req.body.prompt}}`,
     },
   ];
-
-  const messages = [
-    ...code,
-    ...initialMessage,
-    ...bestPractices,
-    ...functionsMessages,
-    /*...codeStyleMessages,
-    ...complexityMessages,*/
-    ...unitTestMessages,
-  ];
+  const requests = req.body.assessments.map((assessment) => {
+    const assessmentFunction = ASSESSMENT_MAPPING[assessment];
+    return assessmentFunction(code, req.body.openAiToken);
+  });
 
   try {
-    const response = await axios.post(
-      OPENAI_API_URL,
-      {
-        model: 'gpt-3.5-turbo',
-        messages,
-        max_tokens: 1000,
-        temperature: 0.2,
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${req.body.openAiToken}`,
-        },
-      }
+    const responses = await Promise.all(requests);
+    const data = responses.map((response) =>
+      response.data.choices[0].message.content.trim()
     );
-
-    const data = response.data;
-    res.status(200).json({ data: data.choices[0].message.content.trim() });
+    res.status(200).json({ data });
   } catch (error) {
     console.log('Completion error:', error.message);
     res.status(400);

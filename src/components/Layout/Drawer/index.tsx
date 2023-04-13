@@ -91,16 +91,9 @@ const RepoDrawer = ({ onSetCode, onSetFile }: RepoDrawerProps): JSX.Element => {
       anchor="left"
       open={true}
     >
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginTop: 7,
-        }}
-      >
+      <LogoWrapper>
         <Image src={logo} alt="logo" height={50} width={150} />
-      </div>
+      </LogoWrapper>
       {files && files.length === 0 ? (
         <Empty />
       ) : loading ? (
@@ -170,6 +163,13 @@ const LoaderWrapper = styled('div')(() => ({
   justifyContent: 'center',
   alignItems: 'center',
   marginTop: 16,
+}));
+
+const LogoWrapper = styled('div')(() => ({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  marginTop: 7,
 }));
 
 export default RepoDrawer;

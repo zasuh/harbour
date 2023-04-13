@@ -1,35 +1,76 @@
 import React, { useContext, useState } from 'react';
 import {
   Button,
+  Checkbox,
   CircularProgress,
   Container,
+  FormControl,
   Grid,
+  InputLabel,
+  ListItemText,
+  MenuItem,
+  OutlinedInput,
+  Select,
+  SelectChangeEvent,
   Typography,
 } from '@mui/material';
 import { Box, styled } from '@mui/system';
 import { marked } from 'marked';
 import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { atomOneLight } from 'react-syntax-highlighter/dist/cjs/styles/hljs';
+import { atelierSulphurpoolDark } from 'react-syntax-highlighter/dist/cjs/styles/hljs';
 
 import { EnvContext } from '@/pages/_app';
 import { useSubmitPrompt } from '@/hooks/use-submit-prompt';
+import theme from '@/theme';
 
 interface MainProps {
   code: string;
 }
+
+interface Assessment {
+  id: number;
+  title: string;
+  value: string;
+}
+
+const ASSESSMENTS: Assessment[] = [
+  {
+    id: 1,
+    title: 'Best Practices',
+    value: 'best_practices',
+  },
+  {
+    id: 2,
+    title: 'Functions',
+    value: 'functions',
+  },
+  {
+    id: 3,
+    title: 'Write a Unit Test',
+    value: 'unit_tests',
+  },
+];
 
 const Main = ({ code }: MainProps): JSX.Element => {
   const { files } = useContext(EnvContext);
   const { getChatCompletionWithPrompt } = useSubmitPrompt();
   const [loading, setLoading] = useState(false);
   const [answer, setAnswer] = useState<string>('');
+  const [assessments, setAssessments] = useState<string[]>([]);
+
+  const handleChange = (event: SelectChangeEvent<typeof assessments>) => {
+    const {
+      target: { value },
+    } = event;
+    setAssessments(typeof value === 'string' ? value.split(',') : value);
+  };
 
   const onPrompt = async () => {
     setLoading(true);
     setAnswer('');
 
     const prompt = `${code}`;
-    const response = await getChatCompletionWithPrompt(prompt);
+    const response = await getChatCompletionWithPrompt(prompt, assessments);
     const answer = marked(response);
 
     setAnswer(answer);
@@ -41,33 +82,77 @@ const Main = ({ code }: MainProps): JSX.Element => {
       <OuterContainer maxWidth="lg">
         <InnerContainer>
           {files.length === 0 ? (
-            <StyledTypography>
+            <Typography color={theme.palette.text.primary}>
               Follow the instructions in the sidebar to add your Github repo and
               tokens.
-            </StyledTypography>
+            </Typography>
           ) : (
             <StyledBox>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
-                  <StyledSyntaxHighlighter language="jsx" style={atomOneLight}>
+                  <StyledSyntaxHighlighter
+                    language="jsx"
+                    style={atelierSulphurpoolDark}
+                  >
                     {code}
                   </StyledSyntaxHighlighter>
                 </Grid>
                 <Grid item xs={12} sm={6} style={{ height: '60vh' }}>
                   <div>
-                    <StyledTypography variant="body2">
+                    <Typography
+                      color={theme.palette.text.primary}
+                      variant="body2"
+                    >
                       Select a repository in the sidebar. Then select a file and
                       click the button to get an analysis.
-                    </StyledTypography>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                      <StyledButton
-                        variant="contained"
-                        color="primary"
-                        onClick={onPrompt}
-                        disabled={loading}
-                      >
-                        Advice pls
-                      </StyledButton>
+                    </Typography>
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        marginTop: 16,
+                      }}
+                    >
+                      <FormControl sx={{ m: 1, width: 300 }}>
+                        <InputLabel>Select Assessments</InputLabel>
+                        <Select
+                          id="multiple-checkbox"
+                          multiple
+                          value={assessments}
+                          onChange={handleChange}
+                          input={<OutlinedInput label="Tag" />}
+                          renderValue={(selected) => selected.join(', ')}
+                          MenuProps={{
+                            PaperProps: {
+                              style: {
+                                maxHeight: 48 * 12,
+                                width: 250,
+                                color: 'black',
+                              },
+                            },
+                          }}
+                        >
+                          {ASSESSMENTS.map((a) => (
+                            <MenuItem key={a.id} value={a.value}>
+                              <Checkbox
+                                style={{ color: 'black' }}
+                                checked={assessments.indexOf(a.value) > -1}
+                              />
+                              <ListItemText primary={a.title} />
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                      <div>
+                        <StyledButton
+                          variant="contained"
+                          color="primary"
+                          onClick={onPrompt}
+                          disabled={loading}
+                        >
+                          Advice pls
+                        </StyledButton>
+                      </div>
                     </div>
                   </div>
                   {loading && (
@@ -96,8 +181,8 @@ const Wrapper = styled('main')(() => ({
   alignItems: 'center',
   justifyContent: 'center',
   marginLeft: 240,
-  marginTop: 48,
-  height: '100vh',
+  marginTop: 24,
+  height: 'calc(100vh - 24px)',
   backgroundColor: '#092D48',
 }));
 
@@ -108,7 +193,6 @@ const OuterContainer = styled(Container)(() => ({
   alignItems: 'center',
   gap: 10,
   margin: 30,
-  width: '100%',
 }));
 
 const InnerContainer = styled('div')(() => ({
@@ -125,15 +209,14 @@ const StyledBox = styled(Box)(() => ({
   flexWrap: 'wrap',
   justifyContent: 'space-between',
   alignItems: 'center',
-  margin: '16px',
-  padding: '16px',
-  backgroundColor: '#f5f5f5',
-  borderRadius: '8px',
+  margin: 16,
+  padding: 16,
+  height: '100%',
   width: 1200,
 }));
 
 const StyledTypography = styled(Typography)(() => ({
-  marginBottom: '16px',
+  marginBottom: 16,
   fontFamily: 'Roboto, sans-serif',
   color: '#FFFFFF',
   '& strong': {
@@ -148,8 +231,9 @@ const StyledButton = styled(Button)(() => ({
 }));
 
 const AnswerWrapper = styled('div')(() => ({
-  height: '60vh',
+  maxHeight: '100%',
   overflowY: 'auto',
+  color: '#FFFFFF',
 }));
 
 const LoaderWrapper = styled('div')(() => ({
